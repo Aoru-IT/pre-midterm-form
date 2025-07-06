@@ -7,7 +7,7 @@
             scroll-behavior: smooth;
         }
         body {
-            background-color: rgb(70, 134, 70);
+            background-color: #123524;
             margin: 0;
             padding: 0;
         }
@@ -29,7 +29,7 @@
         }
 
         input[type="button"], button[type="submit"]{
-            background-color: rgb(149, 247, 149);
+            background-color: #85A947;
             border-radius: 5px;
             border-style: none;
             cursor: pointer;
@@ -37,13 +37,13 @@
 
       
         input[type="button"]:hover {
-            background-color: rgb(26, 182, 26);
+            background-color: #123524;
             color: white;
             transition: 0.3s;
         }
 
         button[type="submit"]:hover {
-            background-color: rgb(26, 182, 26);
+            background-color: #123524;
             color: white;
             transition: 0.3s;
         }
@@ -70,7 +70,7 @@
         }
 
         footer a:link{
-            color: rgb(180, 226, 241);
+            color: #85A947;
         }
 
         footer a:hover{
@@ -78,23 +78,27 @@
             transition: 0.3s;
         }
 
+        footer a:visited{
+            color: #3E7B27;
+        }
+
         .content {
             width: 90%;
             max-width: 700px;
             margin: 3vh auto;
             padding: 1vh 7vh;
-            background-color: rgb(211, 248, 211);
+            background-color: #EFE3C2;
             border-radius: 5px;
             box-shadow: 0 10px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
         }
 
         .content h1 {
             text-align: center;
-            color: rgb(70, 134, 70);
+            color: #123524; 
         }
 
         .content hr {
-            border-color: rgb(70, 134, 70);
+            border-color: #123524;
         }
 
         .form {
