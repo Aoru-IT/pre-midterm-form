@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment Form</title>
+</head>
+<body>
+    <div class="content">
+        <h1>DLSU-D Enrollment Form</h1>
+        <hr/>
+            <div class="form">
+            <form id="googleForm">  
+  
+                <h3>Full-Name:</h3>
+                    <div class="input-group">
+                        <input type="text" name="fullName" id="fullName" placeholder="Your Full Name..." required />
+                    </div>  
+
+                <div class="radiogroup">
+                    <h3>Gender:</h3>
+                    <div>
+                    <label for="male"><input type="radio" name="gender" id="male" value="Male" required/>Male</label>
+          
+                    <label for="female">
+                    <input type="radio" name="gender" id="female" value="Female" required/>Female</label>
+                    </div>
+                </div>
+
+                <h3 for="birthday">Birthday:</h3>
+                <input type="date" id="birthday" name="birthday" required/>
+
+                <h3 for="address">Address:</h3>
+                <textarea id="address" name="address" placeholder="Enter your full address..."></textarea>
+
+                <div class="yearTable">
+                    <table>
+                        <tr>
+                            <th colspan="2">Tuition Fee Breakdown</th>
+                        </tr>
+                        <tr>
+                            <th>Year Level</th>
+                            <th>Price per Unit</th>
+                        </tr>
+                        <tr> 
+                            <th>Year 1</th>
+                            <td>₱3500</td>
+                        </tr>
+                        <tr>
+                            <th>Year 2</th>
+                            <td>₱4500</td>
+                        </tr>
+                        <tr>
+                            <th>Year 3</th>
+                            <td>₱5000</td>
+                        </tr>
+                        <tr>
+                            <th>Year 4</th> 
+                            <td>₱4000</td>
+                        </tr>
+                        <tr>
+                            <th>Miscellaneous Fee</th>
+                            <td>₱5000</td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div class="radiogroup">
+                    <h3 for="yearLevel">Select Year Level to Enroll:</h3>
+                    <div>
+                    <label for="firstYear">
+                    <input type="radio" name="yearLevel" id="firstYear" value="First Year"/>First Year</label>
+                
+                    <label for="secondYear">
+                    <input type="radio" name="yearLevel" id="secondYear" value="Second Year"/>Second Year</label>
+                    <label for="thirdYear">
+                    <input type="radio" name="yearLevel" id="thirdYear" value="Third Year"/>Third Year</label>
+                    <label for="fourthYear">
+                    <input type="radio" name="yearLevel" id="fourthYear" value="Fourth Year"/>Fourth Year</label>
+                    </div>
+                </div>
+
+                <div id="coursesSection"></div>
+                <div class="receipt" id="receipt"></div>
+
+                <input type="hidden" name="subjectList" id="subjectList" />
+                <input type="hidden" name="totalUnits" id="totalUnits" />
+                <input type="hidden" name="tuitionTotal" id="tuitionTotal" />
+                <input type="hidden" name="unitRate" id="unitRate" />   
+                <input type="hidden" name="currentTime" id="currentTime" />
+                <input type="hidden" name="miscFee" id="miscFee" />
+            </form>
+            </div>
+    </div>
+<footer>
+    <p><i>For any inquiries or concerns, kindly message our <a href="https://www.facebook.com/DLSU.Dasmarinas" target="_blank">Facebook Page</a></i></p>
+</footer>
+
+<script>
+    const courses = {
+    FirstYearCourses: [
+      { id: "ITP01", name: "Introduction to Programming", units: 2, ticked: false },
+      { id: "OOP01", name: "Object Oriented Programming", units: 2,  ticked: false },
+      { id: "IPD01", name: "Basic Data Structures", units: 2,  ticked: false },
+      { id: "GPE01", name: "Physical Education 1", units: 1,  ticked: false },
+      { id: "MTL01", name: "Logic and General Mathematics", units: 3,  ticked: false }
+    ],
+    SecondYearCourses: [
+      { id: "ITP02", name: "Intermediate Programming", units: 2,  ticked: false },
+      { id: "HCI01", name: "Human and Computer Interaction", units: 2,  ticked: false },
+      { id: "IPD02", name: "Advanced Data Structures", units: 2, ticked: false },
+      { id: "GPE02", name: "Physical Education 2", units: 1,  ticked: false },
+      { id: "QTM01", name: "Quantitative Methods", units: 3,  ticked: false }
+    ],
+    ThirdYearCourses: [
+      { id: "APD01", name: "Application Development", units: 2,  ticked: false },
+      { id: "IMS01", name: "Multimedia Systems", units: 2,  ticked: false },
+      { id: "SIA01", name: "System Integration and Architecture", units: 2, ticked: false },
+      { id: "IAS01", name: "Information Assurance and Security", units: 3,  ticked: false },
+      { id: "CAP01", name: "Capstone Project 1", units: 3,  ticked: false }
+    ],
+    FourthYearCourses: [
+      { id: "CAP02", name: "Capstone Project 2", units: 3,  ticked: false },
+      { id: "ITD01", name: "Internet Tools and Development", units: 2,  ticked: false },
+      { id: "IGD01", name: "Graphics Design", units: 2, ticked: false },
+      { id: "PCM01", name: "Practicum", units: 3,  ticked: false },
+    ]
+    };
+
+
+    const yearKeyMap = {
+    "First Year": "FirstYearCourses",
+    "Second Year": "SecondYearCourses",
+    "Third Year": "ThirdYearCourses",
+    "Fourth Year": "FourthYearCourses"
+    };
+
+        const coursesSection = document.getElementById("coursesSection");
+        const courseRadios = document.querySelectorAll('input[name="yearLevel"]');
+        const receiptSection = document.getElementById("receipt");
+        courseRadios.forEach(radio => {
+            radio.addEventListener("change", () => {
+
+            const yearLabel = radio.value; 
+            const selectedYear = yearKeyMap[yearLabel]; 
+            const courseList = courses[selectedYear];
+            let courseArea = "";
+            receiptSection.style.display = "none";
+
+            if(!courseList) return;
+            courseArea += `<div class="coursesTable"><table>   
+                        <tr>
+                            <th colspan = "3">Select Courses to Enroll</th>
+                        </tr>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Number of Units:</th>
+                            <th>Enroll:</th>
+                        </tr>`;
+
+                courses[selectedYear].forEach((item) => {
+                    courseArea += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.units}</td>
+                            <td style=""><input type="checkbox" id="${item.id}" name="courseList" data-units=${item.units} data-name="${item.name}"></td>
+                        </tr>                        
+                    `
+                });
+                courseArea += `<tr><td colspan="3" style="padding: 1rem 2rem;"><input type="button" value="View Fee Breakdown" onclick="tuitionCalculate()"/></td></tr>`;
+                courseArea += `</table></div>`;
+                coursesSection.innerHTML = courseArea;
+                coursesSection.style.display = "block";
+                coursesSection.scrollIntoView({ behavior: 'smooth' });
+
+                document.querySelectorAll('input[name="courseList"]').forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        receiptSection.style.display = 'none';
+                    })
+                })
+
+
+            });
+                
+            });
+            
+            function tuitionCalculate(){
+
+            const yearRates = {
+            FirstYearCourses: 3500,
+            SecondYearCourses: 4500,
+            ThirdYearCourses: 5000,
+            FourthYearCourses: 4000
+            };
+            
+            const currentTime = new Date().toLocaleString();
+            const miscFee = 5000;
+            const enrolledSubjects = coursesSection.querySelectorAll("input[type='checkbox']:checked");
+            const yearLabel = document.querySelector('input[name="yearLevel"]:checked')?.value;
+            const selectedYear = yearKeyMap[yearLabel];
+            let subtotal = 0;
+            let receiptHTML = `<h3>Enrollment Receipt</h3><p><b>Date:</b> ${currentTime}<p>`;
+            
+            const unitRate = yearRates[selectedYear];
+            let totalUnits = 0;
+            let subjectList = "";
+
+
+            enrolledSubjects.forEach(input => {
+                const units = parseInt(input.dataset.units);
+                const name = input.dataset.name;
+                
+                subtotal += units * unitRate;
+                totalUnits += units;
+                subjectList += `<br/>${name}`;
+            });
+
+            if(totalUnits == 0){
+                receiptSection.style.display = "none";
+                return;     
+            }
+
+            const tuitionTotal = subtotal + miscFee;
+
+            document.getElementById("subjectList").value = subjectList.replaceAll("<br/>", "\n");
+            document.getElementById("totalUnits").value = totalUnits;
+            document.getElementById("unitRate").value = unitRate;   
+            document.getElementById("tuitionTotal").value = tuitionTotal;
+            document.getElementById("miscFee").value = miscFee;
+            document.getElementById("currentTime").value = new Date().toLocaleString();
+
+            receiptHTML += `<p><b>Enrolled Subjects:</b> ${subjectList}</p><hr>`;
+
+            receiptHTML += `<p><b>Total Number of Units:</b> ${totalUnits}</p>`;
+            receiptHTML += `<p><b>Unit Rate:</b> ₱${unitRate}</p>`;
+            receiptHTML += `<p><b>Subtotal:</b> ₱${subtotal}</p>`;
+            receiptHTML += `<p><b>Miscellaneous:</b> ₱${miscFee}</p><hr>`;
+            
+
+            receiptHTML += `<p style="font-size:18px;"><b>Total Amount:</b> ₱${tuitionTotal}</p>`;
+            receiptHTML += `<input type="button" value="Print Receipt" onclick="printReceipt()"/>`;
+            receiptHTML += `<button type="submit">Submit Enrollment Form</button>`;    
+            
+            receiptSection.innerHTML = receiptHTML;
+            receiptSection.style.display = "block";
+            receiptSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function printReceipt() {
+            const printContents = document.getElementById("receipt").innerHTML;
+
+            const html = `
+            <html>
+            <head><title>Print Receipt</title>
+                 <style>
+                    * {
+                        font-family: 'Outfit', sans-serif;
+                    }
+                    body {
+                        padding: 20px;
+                        background: #eff1f4;
+                        color: #283546;
+                    }
+                    p {
+                        margin: 8px 0;
+                        font-size: 16px;
+                    }
+                    .thankyou {
+                        text-align: center;
+                        margin-top: 20px;
+                        font-style: italic;
+                    }
+                </style>
+                </head>
+                <body>
+                ${printContents}    
+                </body>
+                </html>`;
+            
+            const win = window.open('', '', '');
+            win.document.open();
+
+            win.document.write(html);
+            win.focus();
+            win.print();
+            win.close();
+        }
+
+        // SCRIPT SUBMISSION TO GOOGLE SHEETS
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx4TN_UMUpSwVHKhkvYnEPYMQ2zGtGR3-1VJFldHw-y-9L6SEUvNRa5KepAtVmCwgCWjw/exec';
+        const form = document.getElementById('googleForm');
+
+
+         //When the user clicks the submit button, this function runs.
+        form.addEventListener('submit', e => {
+            e.preventDefault(); //This stops the browser’s default action of reloading
+
+                    const confirmed = confirm('Are you sure you want to submit? \nThe form will reset after submission!');
+                    if (!confirmed) {
+                        return;
+                    }
+                    
+                    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+
+                    .then(response => {
+                        
+                        alert("Form submitted successfully!");
+                        setTimeout(() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 200);
+                        coursesSection.style.display = "none";
+                        receiptSection.style.display = "none";
+                        
+                        form.reset();
+
+                    })
+
+                    .catch(error => {
+        console.error('Error details:', error);
+        alert('Error!', error.message);
+        });
+
+        });
+
+        
+        
+</script>
+</body>
+</html>
