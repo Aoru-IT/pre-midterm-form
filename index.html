@@ -190,7 +190,10 @@
             });
             
             function tuitionCalculate(){
-
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
             const yearRates = {
             FirstYearCourses: 3500,
             SecondYearCourses: 4500,
@@ -299,16 +302,11 @@
          //When the user clicks the submit button, this function runs.
         form.addEventListener('submit', e => {
             e.preventDefault(); //This stops the browser’s default action of reloading
-                    if (!form.checkValidity()) {
-                        form.reportValidity();
-                        return;
-                    }
-                    
+
                     const confirmed = confirm('Are you sure you want to submit? \nThe form will reset after submission!');
                     if (!confirmed) {
                         return;
                     }
-
                     
                     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
 
